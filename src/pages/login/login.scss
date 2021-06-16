@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.card {
+  width: 100%;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+.card-body {
+  .card-title {
+    padding-left: 15px;
+  }
+  .btn-outline-primary {
+    margin-left: 15px;
+  }
+}
