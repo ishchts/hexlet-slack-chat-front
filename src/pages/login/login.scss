@@ -19,3 +19,18 @@
     margin-left: 15px;
   }
 }
+
+.toast {
+  position: absolute;
+  top: 0;
+  background-color: #ff0000;
+  color: #fff;
+  .toast-header {
+    background-color: #ff0000;
+    color: #fff;
+  }
+  button {
+    color: #fff;
+    opacity: 1;
+  }
+}

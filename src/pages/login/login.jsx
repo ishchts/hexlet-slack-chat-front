@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
 import {
-  Button, Card, Container, Col, Form,
+  Button, Card, Container, Col, Form, Toast,
 } from 'react-bootstrap';
+import { useAuth } from '../../utils/hooks.js';
 
 import './login.scss';
 
@@ -12,22 +14,61 @@ const schema = yup.object().shape({
   password: yup.string().required(),
 });
 
-export default () => {
+export default ({ history }) => {
+  const auth = useAuth();
+
   const formik = useFormik({
     initialValues: {
       username: '',
       password: '',
     },
     validationSchema: schema,
-    onSubmit: (values) => console.log('values', values),
+    onSubmit: async (values, { setSubmitting, setStatus }) => {
+      setSubmitting(true);
+      try {
+        const resp = await axios({
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          method: 'POST',
+          url: '/api/v1/login',
+          data: JSON.stringify(values),
+        });
+
+        auth.logIn(resp.data.token, resp.data.username);
+        setStatus(null);
+        history.push('/');
+      } catch (e) {
+        setStatus('Неверные имя пользователя или пароль');
+      } finally {
+        setSubmitting(false);
+      }
+    },
   });
+
+  const formRef = useRef(null);
+
+  useEffect(() => {
+    formRef.current.querySelector('input').focus();
+  }, []);
 
   return (
     <Container fluid className="container">
+      {formik.status && (
+        <Toast
+          autohide
+          delay={3000}
+          show={Boolean(formik.status)}
+          onClose={() => formik.setStatus(null)}
+        >
+          <Toast.Header>Ошибка!</Toast.Header>
+          <Toast.Body>{formik.status}</Toast.Body>
+        </Toast>
+      )}
       <Card className="card">
         <Card.Body>
           <Card.Title>Войти</Card.Title>
-          <form onSubmit={formik.handleSubmit}>
+          <form ref={formRef} onSubmit={formik.handleSubmit}>
             <Form.Group
               as={Col}
               className="position-relative"
@@ -58,7 +99,14 @@ export default () => {
                 size="lg"
               />
             </Form.Group>
-            <Button type="submit" variant="outline-primary" size="lg">Войти</Button>
+            <Button
+              type="submit"
+              variant="outline-primary"
+              size="lg"
+              disabled={formik.isSubmitting}
+            >
+              Войти
+            </Button>
           </form>
         </Card.Body>
         <Card.Footer>
