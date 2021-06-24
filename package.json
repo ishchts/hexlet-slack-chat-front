@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "type": "module",
   "engines": {
-    "node": "14.x"
+    "node": ">=14.x"
   },
   "scripts": {
     "test": "echo 'no tests for this project'",
@@ -21,6 +21,7 @@
   "license": "ISC",
   "homepage": "",
   "dependencies": {
+    "@reduxjs/toolkit": "^1.6.0",
     "axios": "0.21.1",
     "bootstrap": "^4.6.0",
     "core-js": "^3.10.1",
@@ -42,7 +43,9 @@
     "pug": "^3.0.2",
     "react": "17.0.2",
     "react-bootstrap": "1.6.1",
+    "react-bootstrap-icons": "^1.5.0",
     "react-dom": "17.0.2",
+    "react-redux": "^7.2.4",
     "react-router-dom": "5.2.0",
     "react-toolkit": "2.0.0-alpha.6",
     "regenerator-runtime": "^0.13.7",

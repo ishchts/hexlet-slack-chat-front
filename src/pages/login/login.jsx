@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import axios from 'axios';
 import {
   Button, Card, Container, Col, Form, Toast,
 } from 'react-bootstrap';
+import ApiService from '../../services/api-service.js';
 import { useAuth } from '../../utils/hooks.js';
 
 import './login.scss';
@@ -26,14 +26,7 @@ export default ({ history }) => {
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       setSubmitting(true);
       try {
-        const resp = await axios({
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          method: 'POST',
-          url: '/api/v1/login',
-          data: JSON.stringify(values),
-        });
+        const resp = await ApiService.login(values);
 
         auth.logIn(resp.data.token, resp.data.username);
         setStatus(null);

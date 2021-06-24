@@ -1,0 +1,58 @@
+.main-page {
+    height: 100%;
+    .container-fluid {
+        height: 100%;
+    }
+    .row {
+        height: 100%;
+    }
+    &__sidebar {
+
+    }
+    &__add-channel-button {
+        display: flex;
+        background-color: transparent;
+        border: none;
+        &:hover {
+            background-color: transparent;
+        }
+        &:focus {
+            background-color: transparent!important;
+        }
+        &:active {
+            background-color: transparent!important;
+        }
+    }
+}
+
+.channelList {
+    margin-left: 0;
+    margin-top: 20px;
+    list-style-type: none;
+    padding: 0;
+    li {
+        margin-bottom: 10px;
+    }
+    button {
+        width: 100%;
+        text-align: left;
+    }
+}
+
+.add-message-form {
+    .input-group-append {
+        position: absolute;
+        right: 10px;
+        top: 0;
+        height: 100%;
+        z-index: 10;
+    }
+    input {
+        padding-right: 60px;
+        font-size: 16px;
+    }
+    button {
+        border: none;
+        background-color: transparent;
+    }
+}

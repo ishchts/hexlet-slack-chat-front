@@ -1,0 +1,23 @@
+/* eslint-disable functional/no-this-expression, functional/no-class */
+import BaseApiService from './base-api-service.js';
+
+class _ApiService extends BaseApiService {
+  login(values) {
+    return this.request({
+      method: 'POST',
+      url: '/api/v1/login',
+      data: values,
+    });
+  }
+
+  getChatData() {
+    return this.request({
+      method: 'GET',
+      url: '/api/v1/data',
+    });
+  }
+}
+
+const ApiService = new _ApiService();
+
+export default ApiService;
