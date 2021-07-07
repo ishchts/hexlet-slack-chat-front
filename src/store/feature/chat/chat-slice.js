@@ -14,6 +14,10 @@ const chatSlice = createSlice({
   },
   reducers: {
     setCurrentChannel: (state, { payload }) => set(state, 'data.currentChannelId', payload),
+    addMessage: (state, action) => {
+      console.log('action.payload', action.payload);
+      state.data.messages.push(action.payload);
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(getChatData.pending, (state) => ({ ...state, isLoading: true }));
@@ -27,5 +31,5 @@ const chatSlice = createSlice({
   },
 });
 
-export const { setCurrentChannel } = chatSlice.actions;
+export const { setCurrentChannel, addMessage } = chatSlice.actions;
 export default chatSlice.reducer;
