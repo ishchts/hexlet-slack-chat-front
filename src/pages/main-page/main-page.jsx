@@ -88,7 +88,7 @@ const MainPage = () => {
 
       socket.emit('newMessage', newMessage, (response) => {
         if (response.status === 'ok') {
-          dispatch(addMessage(newMessage));
+          console.log('newMessage ok');
         }
       });
 
@@ -98,6 +98,10 @@ const MainPage = () => {
 
   useEffect(() => {
     dispatch(getChatData());
+
+    socket.on('newMessage', (newMessage) => {
+      dispatch(addMessage(newMessage));
+    });
   }, []);
 
   return (

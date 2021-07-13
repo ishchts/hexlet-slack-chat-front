@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import { Link } from 'react-router-dom';
 import {
   Button, Card, Container, Col, Form, Toast,
 } from 'react-bootstrap';
@@ -104,7 +105,9 @@ export default ({ history }) => {
         </Card.Body>
         <Card.Footer>
           <div className="text-center">
-            Нет аккаунта? Регистрация
+            Нет аккаунта?
+            {' '}
+            <Link to="/signup">Регистрация</Link>
           </div>
         </Card.Footer>
       </Card>
