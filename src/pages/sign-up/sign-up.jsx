@@ -8,6 +8,7 @@ import {
   Button, Card, Col, Container, Form, Toast,
 } from 'react-bootstrap';
 import ApiService from '../../services/api-service.js';
+import { useAuth } from '../../utils/hooks';
 
 const createSignUpSchema = (t) => yup.object().shape({
   username: yup
@@ -30,6 +31,7 @@ const createSignUpSchema = (t) => yup.object().shape({
 const SignUp = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const auth = useAuth();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -39,9 +41,10 @@ const SignUp = () => {
     validationSchema: createSignUpSchema(t),
     onSubmit: ((values, { setStatus, setSubmitting }) => {
       ApiService.signUp(omit(values, 'confirmPassword'))
-        .then(() => {
+        .then((res) => {
           setStatus(null);
-          history.push('/login');
+          auth.logIn(res.data.token, res.data.username);
+          history.push('/');
         })
         .catch(() => {
           setStatus(t('thisUserAlreadyExists'));
