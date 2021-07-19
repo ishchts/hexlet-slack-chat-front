@@ -51,7 +51,7 @@ export default {
     messages_5: 'сообщений',
     thisUserAlreadyExists: 'Такой пользователь уже существует',
     mistake: 'Ошибка!',
-    username: 'Имя пользователя',
+    username: 'Ваш ник',
     password: 'Пароль',
     repeatPassword: 'Подтвердите пароль',
     register: 'Зарегистрироваться',
