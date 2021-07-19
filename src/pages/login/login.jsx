@@ -17,6 +17,7 @@ const schema = yup.object().shape({
 });
 
 export default ({ history }) => {
+  console.log(3);
   const { t } = useTranslation();
   const auth = useAuth();
 
