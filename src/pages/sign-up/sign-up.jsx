@@ -79,7 +79,7 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('username')}</Form.Label>
+              <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control
                 type="text"
                 name="username"
@@ -98,7 +98,7 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('password')}</Form.Label>
+              <Form.Label htmlFor="password">{t('password')}</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -116,7 +116,7 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('repeatPassword')}</Form.Label>
+              <Form.Label htmlFor="confirmPassword">{t('repeatPassword')}</Form.Label>
               <Form.Control
                 type="password"
                 name="confirmPassword"

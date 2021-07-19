@@ -17,7 +17,6 @@ const schema = yup.object().shape({
 });
 
 export default ({ history }) => {
-  console.log(3);
   const { t } = useTranslation();
   const auth = useAuth();
 
@@ -70,7 +69,7 @@ export default ({ history }) => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('field.username.label')}</Form.Label>
+              <Form.Label htmlFor="username">{t('field.username.label')}</Form.Label>
               <Form.Control
                 type="text"
                 name="username"
@@ -85,7 +84,7 @@ export default ({ history }) => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('field.password.label')}</Form.Label>
+              <Form.Label htmlFor="password">{t('field.password.label')}</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
