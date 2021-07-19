@@ -71,6 +71,7 @@ export default ({ history }) => {
             >
               <Form.Label htmlFor="username">{t('field.username.label')}</Form.Label>
               <Form.Control
+                id="username"
                 type="text"
                 name="username"
                 value={formik.values.username}
