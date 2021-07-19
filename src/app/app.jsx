@@ -7,13 +7,13 @@ import MainPage from '../pages/main-page/main-page.jsx';
 import SignUp from '../pages/sign-up/sign-up.jsx';
 import Header from '../components/header/header.jsx';
 
-const App = () => (
+const App = ({ socket }) => (
   <AuthProvider>
     <div className="d-flex flex-column h-100">
       <Header />
       <Switch>
         <PrivateRoute exact path="/">
-          <MainPage />
+          <MainPage socket={socket} />
         </PrivateRoute>
         <Route path="/login" component={Login} />
         <Route path="/signup" component={SignUp} />

@@ -2,7 +2,6 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import resources from './locales/resources.js';
 
-console.log('resources', resources);
 i18n
   .use(initReactI18next)
   .init({

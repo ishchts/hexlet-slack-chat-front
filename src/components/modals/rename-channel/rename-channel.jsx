@@ -60,7 +60,7 @@ const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
             <Form.Control
               name="name"
               type="text"
-              data-testid="add-channel"
+              data-testid="rename-channel"
               className="mb-2 form-control"
               value={formik.values.name}
               onChange={formik.handleChange}

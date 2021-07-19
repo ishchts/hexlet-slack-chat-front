@@ -13,7 +13,6 @@ import {
   ButtonGroup,
 } from 'react-bootstrap';
 import { PlusSquare, ArrowRightSquare } from 'react-bootstrap-icons';
-import { io } from 'socket.io-client';
 import { getChatData } from '../../store/feature/chat/action.js';
 import {
   setCurrentChannel, addMessage, addChannel, renameChannel, removeChannel,
@@ -23,13 +22,7 @@ import { getModal, MODAL_NAMES } from '../../components/modals';
 
 import './main-page.scss';
 
-const socket = io();
-
-socket.on('connect', () => {
-  console.log('socket connected', socket.connected); // true
-});
-
-const MainPage = () => {
+const MainPage = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const chat = useSelector(getChat);
