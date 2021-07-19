@@ -23,3 +23,8 @@ $ make start
 
 ### Heroku
 <a href="https://lit-spire-37304.herokuapp.com/" target="_blank">Heroku link</a>
+
+### codeclimat
+[![Maintainability](https://api.codeclimate.com/v1/badges/256ab7dec65e1a1dc99d/maintainability)](https://codeclimate.com/github/Il1ya1/frontend-project-lvl4/maintainability)
+
+[![Test Coverage](https://api.codeclimate.com/v1/badges/256ab7dec65e1a1dc99d/test_coverage)](https://codeclimate.com/github/Il1ya1/frontend-project-lvl4/test_coverage)
