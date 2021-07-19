@@ -81,6 +81,7 @@ const SignUp = () => {
             >
               <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control
+                id="username"
                 type="text"
                 name="username"
                 size="lg"
@@ -100,6 +101,7 @@ const SignUp = () => {
             >
               <Form.Label htmlFor="password">{t('password')}</Form.Label>
               <Form.Control
+                id="password"
                 type="password"
                 name="password"
                 size="lg"
@@ -118,6 +120,7 @@ const SignUp = () => {
             >
               <Form.Label htmlFor="confirmPassword">{t('repeatPassword')}</Form.Label>
               <Form.Control
+                id="confirmPassword"
                 type="password"
                 name="confirmPassword"
                 size="lg"
