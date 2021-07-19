@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
 import omit from 'lodash/omit';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
@@ -8,25 +9,26 @@ import {
 } from 'react-bootstrap';
 import ApiService from '../../services/api-service.js';
 
-const SignUpSchema = yup.object().shape({
+const createSignUpSchema = (t) => yup.object().shape({
   username: yup
     .string()
     .trim()
-    .required('Обязательное поле')
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов'),
+    .required(t('field.mixed.required'))
+    .min(3, t('field.name.min'))
+    .max(20, t('field.name.max')),
   password: yup
     .string()
     .trim()
-    .required('Обязательное поле')
-    .min(6, 'Не менее 6 символов'),
+    .required(t('field.mixed.required'))
+    .min(6, t('field.password.min')),
   confirmPassword: yup
     .string()
-    .required('Обязательное поле')
-    .oneOf([yup.ref('password')], 'Пароли должны совпадать'),
+    .required(t('field.mixed.required'))
+    .oneOf([yup.ref('password')], t('field.confirmPassword.repeat')),
 });
 
 const SignUp = () => {
+  const { t } = useTranslation();
   const history = useHistory();
   const formik = useFormik({
     initialValues: {
@@ -34,7 +36,7 @@ const SignUp = () => {
       password: '',
       confirmPassword: '',
     },
-    validationSchema: SignUpSchema,
+    validationSchema: createSignUpSchema(t),
     onSubmit: ((values, { setStatus, setSubmitting }) => {
       ApiService.signUp(omit(values, 'confirmPassword'))
         .then(() => {
@@ -42,7 +44,7 @@ const SignUp = () => {
           history.push('/login');
         })
         .catch(() => {
-          setStatus('Такой пользователь уже существует');
+          setStatus(t('thisUserAlreadyExists'));
         })
         .finally(() => {
           setSubmitting(false);
@@ -65,19 +67,19 @@ const SignUp = () => {
         show={Boolean(formik.status)}
         onClose={() => formik.setStatus(null)}
       >
-        <Toast.Header>Ошибка!</Toast.Header>
+        <Toast.Header>{t('mistake')}</Toast.Header>
         <Toast.Body>{formik.status}</Toast.Body>
       </Toast>
       )}
       <Card className="card">
         <Card.Body>
-          <Card.Title>Регистрация</Card.Title>
+          <Card.Title>{t('registration')}</Card.Title>
           <form onSubmit={formik.handleSubmit}>
             <Form.Group
               as={Col}
               className="position-relative"
             >
-              <Form.Label>Имя пользователя</Form.Label>
+              <Form.Label>{t('username')}</Form.Label>
               <Form.Control
                 type="text"
                 name="username"
@@ -96,7 +98,7 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>Пароль</Form.Label>
+              <Form.Label>{t('password')}</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -114,7 +116,7 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>Повторите пароль</Form.Label>
+              <Form.Label>{t('repeatPassword')}</Form.Label>
               <Form.Control
                 type="password"
                 name="confirmPassword"
@@ -136,7 +138,7 @@ const SignUp = () => {
               size="lg"
               disabled={formik.isSubmitting}
             >
-              Зарегистрироваться
+              {t('register')}
             </Button>
           </form>
         </Card.Body>

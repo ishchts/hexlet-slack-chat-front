@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import {
   Container,
@@ -25,10 +26,11 @@ import './main-page.scss';
 const socket = io();
 
 socket.on('connect', () => {
-  console.log(socket.connected); // true
+  console.log('socket connected', socket.connected); // true
 });
 
 const MainPage = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const chat = useSelector(getChat);
   const { data: { channels, currentChannelId, messages } } = chat;
@@ -111,7 +113,7 @@ const MainPage = () => {
           <Row>
             <Col className="main-page__sidebar border-end bg-light pt-5" xs={2}>
               <div className="d-flex justify-content-between align-items-center">
-                Каналы
+                {t('channels')}
                 <Button
                   onClick={handleShowModal(MODAL_NAMES.adding)}
                   className="main-page__add-channel-button"
@@ -142,10 +144,10 @@ const MainPage = () => {
 
                           <Dropdown.Menu>
                             <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.removing, el)}>
-                              Удалить
+                              {t('remove')}
                             </Dropdown.Item>
                             <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.renaming, el)}>
-                              Переименовать
+                              {t('rename')}
                             </Dropdown.Item>
                           </Dropdown.Menu>
                         </Dropdown>
@@ -179,7 +181,7 @@ const MainPage = () => {
                 <span className="text-muted">
                   {currentMessages.length}
                   {' '}
-                  сообщений
+                  {t('messages', { count: currentMessages.length })}
                 </span>
               </div>
               <div className="chat-messages overflow-auto px-5 ">

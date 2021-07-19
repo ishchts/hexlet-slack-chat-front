@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import {
   Button, Card, Container, Col, Form, Toast,
 } from 'react-bootstrap';
@@ -16,6 +17,7 @@ const schema = yup.object().shape({
 });
 
 export default ({ history }) => {
+  const { t } = useTranslation();
   const auth = useAuth();
 
   const formik = useFormik({
@@ -61,13 +63,13 @@ export default ({ history }) => {
       )}
       <Card className="card">
         <Card.Body>
-          <Card.Title>Войти</Card.Title>
+          <Card.Title>{t('logIn')}</Card.Title>
           <form ref={formRef} onSubmit={formik.handleSubmit}>
             <Form.Group
               as={Col}
               className="position-relative"
             >
-              <Form.Label>Ваш ник</Form.Label>
+              <Form.Label>{t('field.username.label')}</Form.Label>
               <Form.Control
                 type="text"
                 name="username"
@@ -82,7 +84,7 @@ export default ({ history }) => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>Ваш пароль</Form.Label>
+              <Form.Label>{t('field.password.label')}</Form.Label>
               <Form.Control
                 type="password"
                 name="password"
@@ -99,15 +101,15 @@ export default ({ history }) => {
               size="lg"
               disabled={formik.isSubmitting}
             >
-              Войти
+              {t('button.login')}
             </Button>
           </form>
         </Card.Body>
         <Card.Footer>
           <div className="text-center">
-            Нет аккаунта?
+            {t('noAccount')}
             {' '}
-            <Link to="/signup">Регистрация</Link>
+            <Link to="/signup">{t('registration')}</Link>
           </div>
         </Card.Footer>
       </Card>

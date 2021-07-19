@@ -3,18 +3,19 @@ import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import { Button, Form, Modal } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import { getChannelNames } from '../../../store/feature/chat/chat-selectors.js';
 
-const createChannelSchema = (channelNames) => yup.object().shape({
+const createChannelSchema = (channelNames, t) => yup.object().shape({
   name: yup
     .string()
     .trim()
-    .min(3, 'От 3 до 20 символов')
-    .max(20, 'От 3 до 20 символов')
-    .required('Обязательное поле')
+    .min(3, t('field.name.min'))
+    .max(20, t('field.name.max'))
+    .required(t('field.mixed.required'))
     .test({
       name: 'name',
-      message: 'Должно быть уникальным',
+      message: t('field.name.uniq'),
       test: (value) => {
         if (!value) {
           return false;
@@ -26,6 +27,7 @@ const createChannelSchema = (channelNames) => yup.object().shape({
 });
 
 const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => {
+  const { t } = useTranslation();
   const inputNameRef = useRef(null);
   const channelNames = useSelector(getChannelNames);
 
@@ -33,7 +35,7 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
     initialValues: {
       name: '',
     },
-    validationSchema: createChannelSchema(channelNames),
+    validationSchema: createChannelSchema(channelNames, t),
     onSubmit: ((values, { resetForm }) => {
       handleSubmitModal(values);
       resetForm();
@@ -52,7 +54,7 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
   return (
     <Modal show={Boolean(modalInfo.type)} onHide={handleCancel} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Добавить канал</Modal.Title>
+        <Modal.Title>{t('modal.addChannel.title')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
@@ -71,8 +73,8 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button type="reset" onClick={handleCancel} variant="secondary mr-2">Отменить</Button>
-              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>Отправить</Button>
+              <Button type="reset" onClick={handleCancel} variant="secondary mr-2">{t('button.cancel')}</Button>
+              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('button.send')}</Button>
             </div>
           </Form.Group>
         </form>
