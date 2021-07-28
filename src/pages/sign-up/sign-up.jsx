@@ -8,6 +8,7 @@ import {
   Button, Card, Col, Container, Form, Toast,
 } from 'react-bootstrap';
 import ApiService from '../../services/api-service.js';
+import { useAuth } from '../../utils/hooks';
 
 const createSignUpSchema = (t) => yup.object().shape({
   username: yup
@@ -30,6 +31,7 @@ const createSignUpSchema = (t) => yup.object().shape({
 const SignUp = () => {
   const { t } = useTranslation();
   const history = useHistory();
+  const auth = useAuth();
   const formik = useFormik({
     initialValues: {
       username: '',
@@ -37,17 +39,18 @@ const SignUp = () => {
       confirmPassword: '',
     },
     validationSchema: createSignUpSchema(t),
-    onSubmit: ((values, { setStatus, setSubmitting }) => {
+    onSubmit: ((values, { setStatus }) => {
       ApiService.signUp(omit(values, 'confirmPassword'))
-        .then(() => {
+        .then((res) => {
           setStatus(null);
-          history.push('/login');
+          auth.logIn(res.data.token, res.data.username);
+          history.push('/');
         })
         .catch(() => {
           setStatus(t('thisUserAlreadyExists'));
         })
         .finally(() => {
-          setSubmitting(false);
+          // setSubmitting(false);
         });
     }),
   });
@@ -79,8 +82,9 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('username')}</Form.Label>
+              <Form.Label htmlFor="username">{t('username')}</Form.Label>
               <Form.Control
+                id="username"
                 type="text"
                 name="username"
                 size="lg"
@@ -98,8 +102,9 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('password')}</Form.Label>
+              <Form.Label htmlFor="password">{t('password')}</Form.Label>
               <Form.Control
+                id="password"
                 type="password"
                 name="password"
                 size="lg"
@@ -116,8 +121,9 @@ const SignUp = () => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('repeatPassword')}</Form.Label>
+              <Form.Label htmlFor="confirmPassword">{t('repeatPassword')}</Form.Label>
               <Form.Control
+                id="confirmPassword"
                 type="password"
                 name="confirmPassword"
                 size="lg"
@@ -134,6 +140,7 @@ const SignUp = () => {
             </Form.Group>
             <Button
               type="submit"
+              role="button"
               variant="outline-primary"
               size="lg"
               disabled={formik.isSubmitting}

@@ -20,8 +20,8 @@ const RemoveChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
       <Modal.Body>
         <p className="lead">{t('modal.removeChannel.caption')}</p>
         <div className="d-flex justify-content-end">
-          <Button onClick={handleCancel} className="mr-2" variant="secondary">{t('button.cancel')}</Button>
-          <Button onClick={handleRemove} variant="danger">{t('button.remove')}</Button>
+          <Button role="button" onClick={handleCancel} className="mr-2" variant="secondary">{t('button.cancel')}</Button>
+          <Button role="button" onClick={handleRemove} variant="danger">{t('button.remove')}</Button>
         </div>
       </Modal.Body>
     </Modal>

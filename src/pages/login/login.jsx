@@ -37,7 +37,7 @@ export default ({ history }) => {
       } catch (e) {
         setStatus('Неверные имя пользователя или пароль');
       } finally {
-        setSubmitting(false);
+        // setSubmitting(false);
       }
     },
   });
@@ -69,10 +69,12 @@ export default ({ history }) => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('field.username.label')}</Form.Label>
+              <Form.Label htmlFor="username">{t('field.username.label')}</Form.Label>
               <Form.Control
+                id="username"
                 type="text"
                 name="username"
+                placeholder={t('field.username.label')}
                 value={formik.values.username}
                 onChange={formik.handleChange}
                 isValid={formik.touched.username && !formik.errors.username}
@@ -84,8 +86,9 @@ export default ({ history }) => {
               as={Col}
               className="position-relative"
             >
-              <Form.Label>{t('field.password.label')}</Form.Label>
+              <Form.Label htmlFor="password">{t('field.password.label')}</Form.Label>
               <Form.Control
+                id="password"
                 type="password"
                 name="password"
                 value={formik.values.password}
@@ -97,6 +100,7 @@ export default ({ history }) => {
             </Form.Group>
             <Button
               type="submit"
+              role="button"
               variant="outline-primary"
               size="lg"
               disabled={formik.isSubmitting}

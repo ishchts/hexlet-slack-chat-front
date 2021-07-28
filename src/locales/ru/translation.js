@@ -53,7 +53,7 @@ export default {
     mistake: 'Ошибка!',
     username: 'Имя пользователя',
     password: 'Пароль',
-    repeatPassword: 'Повторите пароль',
+    repeatPassword: 'Подтвердите пароль',
     register: 'Зарегистрироваться',
   },
 };

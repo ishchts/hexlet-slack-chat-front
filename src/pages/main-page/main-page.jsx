@@ -13,7 +13,6 @@ import {
   ButtonGroup,
 } from 'react-bootstrap';
 import { PlusSquare, ArrowRightSquare } from 'react-bootstrap-icons';
-import { io } from 'socket.io-client';
 import { getChatData } from '../../store/feature/chat/action.js';
 import {
   setCurrentChannel, addMessage, addChannel, renameChannel, removeChannel,
@@ -23,13 +22,7 @@ import { getModal, MODAL_NAMES } from '../../components/modals';
 
 import './main-page.scss';
 
-const socket = io();
-
-socket.on('connect', () => {
-  console.log('socket connected', socket.connected); // true
-});
-
-const MainPage = () => {
+const MainPage = ({ socket }) => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
   const chat = useSelector(getChat);
@@ -87,11 +80,12 @@ const MainPage = () => {
         channelId: currentChannelId,
         username,
       };
-
-      socket.emit('newMessage', newMessage, (response) => {
+      socket.emit('newMessage', newMessage, () => {
+        /*
         if (response.status === 'ok') {
           console.log('newMessage ok');
         }
+        */
       });
 
       resetForm();
@@ -115,11 +109,13 @@ const MainPage = () => {
               <div className="d-flex justify-content-between align-items-center">
                 {t('channels')}
                 <Button
+                  role="button"
                   onClick={handleShowModal(MODAL_NAMES.adding)}
                   className="main-page__add-channel-button"
                   size="sm"
                 >
                   <PlusSquare color="#007bff" size="18" />
+                  +
                 </Button>
               </div>
               <ul className="channelList">
@@ -129,6 +125,7 @@ const MainPage = () => {
                       <li key={el.id}>
                         <Dropdown className="w-100" as={ButtonGroup}>
                           <Button
+                            role="button"
                             className="w-100 rounded-0 text-start text-truncate"
                             variant={el.id === currentChannelId ? 'secondary' : null}
                             onClick={handleChangeChannel(el.id)}
@@ -158,6 +155,7 @@ const MainPage = () => {
                   return (
                     <li key={el.id}>
                       <Button
+                        role="button"
                         className="w-100"
                         variant={el.id === currentChannelId ? 'secondary' : null}
                         onClick={handleChangeChannel(el.id)}
@@ -203,19 +201,17 @@ const MainPage = () => {
                       onChange={formik.handleChange}
                       onBlur={formik.handleBlur}
                       placeholder="Введите сообщение..."
-                      aria-label="Recipient's username"
-                      aria-describedby="basic-addon2"
                       size="lg"
                       data-testid="new-message"
                     />
                     <InputGroup.Append>
-                      <button
+                      <Button
                         type="submit"
-                        aria-label="add-message"
-                        disabled={formik.values.body.length === 0}
+                        disabled={formik.isSubmitting}
                       >
                         <ArrowRightSquare size="20" />
-                      </button>
+                        {t('button.send')}
+                      </Button>
                     </InputGroup.Append>
                   </InputGroup>
                 </form>

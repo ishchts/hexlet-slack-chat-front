@@ -73,8 +73,8 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button type="reset" onClick={handleCancel} variant="secondary mr-2">{t('button.cancel')}</Button>
-              <Button type="submit" variant="primary" disabled={formik.isSubmitting}>{t('button.send')}</Button>
+              <Button role="button" type="reset" onClick={handleCancel} variant="secondary mr-2">{t('button.cancel')}</Button>
+              <Button role="button" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('button.send')}</Button>
             </div>
           </Form.Group>
         </form>
