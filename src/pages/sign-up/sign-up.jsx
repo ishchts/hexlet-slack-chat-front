@@ -3,30 +3,12 @@ import { useTranslation } from 'react-i18next';
 import omit from 'lodash/omit';
 import { useFormik } from 'formik';
 import { useHistory } from 'react-router-dom';
-import * as yup from 'yup';
 import {
   Button, Card, Col, Container, Form, Toast,
 } from 'react-bootstrap';
 import ApiService from '../../services/api-service.js';
 import { useAuth } from '../../utils/hooks';
-
-const createSignUpSchema = (t) => yup.object().shape({
-  username: yup
-    .string()
-    .trim()
-    .required(t('field.mixed.required'))
-    .min(3, t('field.name.min'))
-    .max(20, t('field.name.max')),
-  password: yup
-    .string()
-    .trim()
-    .required(t('field.mixed.required'))
-    .min(6, t('field.password.min')),
-  confirmPassword: yup
-    .string()
-    .required(t('field.mixed.required'))
-    .oneOf([yup.ref('password')], t('field.confirmPassword.repeat')),
-});
+import { createSignUpSchema } from '../../utils/validation';
 
 const SignUp = () => {
   const { t } = useTranslation();
@@ -48,9 +30,6 @@ const SignUp = () => {
         })
         .catch(() => {
           setStatus(t('thisUserAlreadyExists'));
-        })
-        .finally(() => {
-          // setSubmitting(false);
         });
     }),
   });

@@ -1,30 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useFormik } from 'formik';
 import { Button, Form, Modal } from 'react-bootstrap';
-import * as yup from 'yup';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { getChannelNames } from '../../../store/feature/chat/chat-selectors';
-
-const createRenameValidationSchema = (channelNames, t) => yup.object().shape({
-  name: yup
-    .string()
-    .trim()
-    .min(3, t('field.name.min'))
-    .max(20, t('field.name.max'))
-    .required(t('field.mixed.required'))
-    .test({
-      name: 'name',
-      message: t('field.name.uniq'),
-      test: (value) => {
-        if (!value) {
-          return false;
-        }
-
-        return !channelNames.includes(value);
-      },
-    }),
-});
+import { createUpdateValidationSchema } from '../../../utils/validation.js';
 
 const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
   const { t } = useTranslation();
@@ -36,7 +16,7 @@ const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
       id: modalInfo.item.id,
       name: modalInfo.item.name,
     },
-    validationSchema: createRenameValidationSchema(channelNames, t),
+    validationSchema: createUpdateValidationSchema(channelNames, t),
     onSubmit: (values) => handleSubmitModal(values),
   });
 

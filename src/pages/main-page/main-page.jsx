@@ -52,9 +52,8 @@ const MainPage = ({ socket }) => {
     }
 
     if (modalInfo.type === MODAL_NAMES.removing) {
-      socket.emit('removeChannel', values, (response) => {
+      socket.emit('removeChannel', values, () => {
         dispatch(removeChannel({ channelId: values.id }));
-        console.log('response', response);
       });
     }
 
@@ -94,11 +93,16 @@ const MainPage = ({ socket }) => {
 
   useEffect(() => {
     dispatch(getChatData());
-
     socket.on('newMessage', (newMessage) => {
       dispatch(addMessage(newMessage));
     });
-  }, []);
+  }, [dispatch, socket]);
+
+  useEffect(() => {
+    document.querySelector('.chat-messages').scroll({
+      top: 999999,
+    });
+  }, [messages]);
 
   return (
     <>
@@ -119,53 +123,38 @@ const MainPage = ({ socket }) => {
                 </Button>
               </div>
               <ul className="channelList">
-                {channels.map((el) => {
-                  if (el.removable) {
-                    return (
-                      <li key={el.id}>
-                        <Dropdown className="w-100" as={ButtonGroup}>
-                          <Button
-                            role="button"
-                            className="w-100 rounded-0 text-start text-truncate"
-                            variant={el.id === currentChannelId ? 'secondary' : null}
-                            onClick={handleChangeChannel(el.id)}
-                          >
-                            {el.name}
-                          </Button>
-
-                          <Dropdown.Toggle
-                            className="flex-grow-0"
-                            split
-                            variant={el.id === currentChannelId ? 'secondary' : null}
-                          />
-
-                          <Dropdown.Menu>
-                            <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.removing, el)}>
-                              {t('remove')}
-                            </Dropdown.Item>
-                            <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.renaming, el)}>
-                              {t('rename')}
-                            </Dropdown.Item>
-                          </Dropdown.Menu>
-                        </Dropdown>
-                      </li>
-                    );
-                  }
-
-                  return (
-                    <li key={el.id}>
+                {channels.map((el) => (
+                  <li key={el.id}>
+                    <Dropdown className="w-100" as={ButtonGroup}>
                       <Button
                         role="button"
-                        className="w-100"
+                        className="w-100 rounded-0 text-start text-truncate"
                         variant={el.id === currentChannelId ? 'secondary' : null}
                         onClick={handleChangeChannel(el.id)}
                       >
-                        #
                         {el.name}
                       </Button>
-                    </li>
-                  );
-                })}
+
+                      { el.removable && (
+                      <Dropdown.Toggle
+                        className="flex-grow-0"
+                        split
+                        variant={el.id === currentChannelId ? 'secondary' : null}
+                      />
+                      )}
+                      { el.removable && (
+                      <Dropdown.Menu>
+                        <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.removing, el)}>
+                          {t('remove')}
+                        </Dropdown.Item>
+                        <Dropdown.Item onClick={handleShowModal(MODAL_NAMES.renaming, el)}>
+                          {t('rename')}
+                        </Dropdown.Item>
+                      </Dropdown.Menu>
+                      )}
+                    </Dropdown>
+                  </li>
+                ))}
               </ul>
             </Col>
             <Col className="col p-0 d-flex main-page__content" xs={10}>
@@ -210,7 +199,9 @@ const MainPage = ({ socket }) => {
                         disabled={formik.isSubmitting}
                       >
                         <ArrowRightSquare size="20" />
-                        {t('button.send')}
+                        <span className="invisible d-none">
+                          {t('button.send')}
+                        </span>
                       </Button>
                     </InputGroup.Append>
                   </InputGroup>

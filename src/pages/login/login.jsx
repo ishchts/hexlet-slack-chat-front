@@ -29,15 +29,13 @@ export default ({ history }) => {
     onSubmit: async (values, { setSubmitting, setStatus }) => {
       setSubmitting(true);
       try {
-        const resp = await ApiService.login(values);
+        const res = await ApiService.login(values);
 
-        auth.logIn(resp.data.token, resp.data.username);
+        auth.logIn(res.data.token, res.data.username);
         setStatus(null);
         history.push('/');
       } catch (e) {
         setStatus('Неверные имя пользователя или пароль');
-      } finally {
-        // setSubmitting(false);
       }
     },
   });
@@ -53,7 +51,7 @@ export default ({ history }) => {
       {formik.status && (
         <Toast
           autohide
-          delay={3000}
+          delay={2000}
           show={Boolean(formik.status)}
           onClose={() => formik.setStatus(null)}
         >

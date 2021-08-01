@@ -1,30 +1,10 @@
 import React, { memo, useEffect, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { useFormik } from 'formik';
-import * as yup from 'yup';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { getChannelNames } from '../../../store/feature/chat/chat-selectors.js';
-
-const createChannelSchema = (channelNames, t) => yup.object().shape({
-  name: yup
-    .string()
-    .trim()
-    .min(3, t('field.name.min'))
-    .max(20, t('field.name.max'))
-    .required(t('field.mixed.required'))
-    .test({
-      name: 'name',
-      message: t('field.name.uniq'),
-      test: (value) => {
-        if (!value) {
-          return false;
-        }
-
-        return !channelNames.includes(value);
-      },
-    }),
-});
+import { createUpdateValidationSchema } from '../../../utils/validation.js';
 
 const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => {
   const { t } = useTranslation();
@@ -35,7 +15,7 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
     initialValues: {
       name: '',
     },
-    validationSchema: createChannelSchema(channelNames, t),
+    validationSchema: createUpdateValidationSchema(channelNames, t),
     onSubmit: ((values, { resetForm }) => {
       handleSubmitModal(values);
       resetForm();

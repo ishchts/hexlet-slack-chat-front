@@ -11,6 +11,8 @@
     }
     &__add-channel-button {
         display: flex;
+        justify-content: center;
+        align-items: center;
         background-color: transparent;
         border: none;
         &:hover {
@@ -57,7 +59,7 @@
 .add-message-form {
     .input-group-append {
         position: absolute;
-        right: 10px;
+        right: 0;
         top: 0;
         height: 100%;
         z-index: 10;
@@ -65,10 +67,6 @@
     input {
         padding-right: 60px;
         font-size: 16px;
-    }
-    button {
-        border: none;
-        background-color: transparent;
     }
 }
 
