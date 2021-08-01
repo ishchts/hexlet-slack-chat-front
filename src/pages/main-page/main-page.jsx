@@ -98,12 +98,6 @@ const MainPage = ({ socket }) => {
     });
   }, [dispatch, socket]);
 
-  useEffect(() => {
-    document.querySelector('.chat-messages').scroll({
-      top: 999999,
-    });
-  }, [messages]);
-
   return (
     <>
       <div className="main-page rounded shadow">
