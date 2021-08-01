@@ -14,14 +14,4 @@ const socket = io();
 
 runApp(socket).then((result) => {
   render(result, document.getElementById('chat'));
-  /*
-  new Rollbar({
-    accessToken: '4be9d205911447faab8069536e5d5cc9',
-    captureUncaught: true,
-    captureUnhandledRejections: true,
-    payload: {
-      environment: 'production',
-    },
-  });
-   */
 });
