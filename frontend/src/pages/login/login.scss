@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.card {
+  width: 100%;
+  min-width: 320px;
+  max-width: 420px;
+}
+
+.toast {
+  position: absolute;
+  top: 0;
+  background-color: #ff0000;
+  color: #fff;
+  .toast-header {
+    background-color: #ff0000;
+    color: #fff;
+  }
+  button {
+    color: #fff;
+    opacity: 1;
+  }
+}
