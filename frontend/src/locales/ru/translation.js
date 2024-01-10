@@ -18,6 +18,9 @@ const translation = {
         title: 'Удалить канал',
         caption: 'Уверены?',
       },
+      updateChannel: {
+        title: "Переименовать канал"
+      }
     },
     field: {
       mixed: {
@@ -32,7 +35,7 @@ const translation = {
         label: 'Ваш ник',
       },
       password: {
-        label: 'Ваш пароль',
+        label: 'Пароль',
         min: 'Не менее 6 символов',
       },
       confirmPassword: {
@@ -40,7 +43,11 @@ const translation = {
       },
     },
     logIn: 'Войти',
-    channels: 'Каналы',
+    channels: {
+      title: 'Каналы',
+      menu: 'Управление каналом',
+      channelName: 'Имя канала'
+    },
     remove: 'Удалить',
     rename: 'Переименовать',
     messages_0: 'сообщение',
@@ -49,7 +56,6 @@ const translation = {
     messages_3: 'сообщения',
     messages_4: 'сообщения',
     messages_5: 'сообщений',
-    thisUserAlreadyExists: 'Такой пользователь уже существует',
     mistake: 'Ошибка!',
     username: 'Имя пользователя',
     password: 'Пароль',
@@ -60,6 +66,17 @@ const translation = {
       message: 'Но вы можете перейти ',
       linkText: 'на главную страницу',
     },
+    toast: {
+      thisUserAlreadyExists: 'Такой пользователь уже существует',
+      login: {
+        error: 'Неверные имя пользователя или пароль'
+      },
+      channels: {
+        created: 'Канал создан',
+        updated: 'Канал переименован',
+        deleted: 'Канал удалён'
+      }
+    }
   },
 };
 

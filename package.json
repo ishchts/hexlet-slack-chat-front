@@ -24,7 +24,6 @@
   },
   "homepage": "https://github.com/ishchts/hexlet-slack-chat-front#readme",
   "dependencies": {
-    "@hexlet/chat-server": "^1.1.6",
-    "socket.io-client": "^4.5.1"
+    "@hexlet/chat-server": "^1.1.9"
   }
 }

@@ -4,10 +4,12 @@ import * as yup from 'yup';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  Button, Card, Container, Col, Form, Toast,
+  Button, Card, Container, Col, Form
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+
 import ApiService from '../../services/api-service.js';
-import { useAuth } from '../../utils/hooks.js';
+import { useAuth } from '../../hooks';
 
 import './login.scss';
 
@@ -27,16 +29,15 @@ const Login = () => {
       password: '',
     },
     validationSchema: schema,
-    onSubmit: async (values, { setSubmitting, setStatus }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setSubmitting(true);
       try {
         const res = await ApiService.login(values);
 
         logIn(res.data.token, res.data.username);
-        setStatus(null);
         navigate('/');
       } catch (e) {
-        setStatus('Неверные имя пользователя или пароль');
+        toast.error(t('toast.login.error'));
       }
     },
   });
@@ -53,17 +54,6 @@ const Login = () => {
 
   return (
     <Container fluid className="container">
-      {formik.status && (
-        <Toast
-          autohide
-          delay={2000}
-          show={Boolean(formik.status)}
-          onClose={() => formik.setStatus(null)}
-        >
-          <Toast.Header>Ошибка!</Toast.Header>
-          <Toast.Body>{formik.status}</Toast.Body>
-        </Toast>
-      )}
       <Card className="card">
         <Card.Body>
           <Card.Title>{t('logIn')}</Card.Title>

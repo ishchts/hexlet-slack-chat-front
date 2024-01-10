@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { authContext } from '../../utils/context';
+import { authContext } from '../../context';
 
 const AuthProvider = ({ children }) => {
   const userToken = localStorage.getItem('token');

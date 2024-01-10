@@ -15,5 +15,3 @@ export const getChannelNames = createSelector(
     store.map((el) => el.name)
   ),
 );
-
-export default {};

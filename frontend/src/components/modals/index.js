@@ -12,4 +12,3 @@ const modals = {
 export const getModal = (modalName) => modals[modalName];
 
 export { MODAL_NAMES } from './constants.js';
-export default {};

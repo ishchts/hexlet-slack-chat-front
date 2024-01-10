@@ -3,8 +3,10 @@ import { useFormik } from 'formik';
 import { Button, Form, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { useTranslation } from 'react-i18next';
+
 import { getChannelNames } from '../../../store/feature/chat/chat-selectors';
 import { createUpdateValidationSchema } from '../../../utils/validation.js';
+import { ModalTitle } from '../components/ModalTitle';
 
 const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
   const { t } = useTranslation();
@@ -31,13 +33,14 @@ const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
 
   return (
     <Modal show={Boolean(modalInfo.type)} onHide={handleCancel} centered>
-      <Modal.Header closeButton>
-        <Modal.Title>Переименовать канал</Modal.Title>
-      </Modal.Header>
+      <ModalTitle>
+        {t('modal.updateChannel.title')}
+      </ModalTitle>
       <Modal.Body>
         <form onSubmit={formik.handleSubmit}>
           <Form.Group>
             <Form.Control
+              id="name"
               name="name"
               type="text"
               data-testid="rename-channel"
@@ -47,12 +50,28 @@ const RenameChannel = ({ modalInfo, handleCloseModal, handleSubmitModal }) => {
               ref={inputNameRef}
               isInvalid={formik.touched.name && Boolean(formik.errors.name)}
             />
+            <Form.Label className="visually-hidden" htmlFor="name">{t('channels.channelName')}</Form.Label>
             <Form.Control.Feedback type="invalid">
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
-              <Button role="button" type="reset" onClick={handleCancel} variant="secondary mr-2">{t('button.cancel')}</Button>
-              <Button role="button" type="submit" variant="primary" disabled={formik.isSubmitting}>{t('button.send')}</Button>
+              <Button
+                className="me-2"
+                role="button"
+                type="reset"
+                onClick={handleCancel}
+                variant="secondary"
+              >
+                {t('button.cancel')}
+              </Button>
+              <Button
+                role="button"
+                type="submit"
+                variant="primary"
+                disabled={formik.isSubmitting}
+              >
+                {t('button.send')}
+              </Button>
             </div>
           </Form.Group>
         </form>

@@ -2,7 +2,7 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import Button from 'react-bootstrap/Button';
 import { Link } from 'react-router-dom';
-import { useAuth } from '../../utils/hooks';
+import { useAuth } from '../../hooks';
 
 const Header = () => {
   const { t } = useTranslation();

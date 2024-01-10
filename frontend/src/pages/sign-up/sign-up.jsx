@@ -4,10 +4,12 @@ import omit from 'lodash/omit';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import {
-  Button, Card, Col, Container, Form, Toast,
+  Button, Card, Col, Container, Form
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+
 import ApiService from '../../services/api-service.js';
-import { useAuth } from '../../utils/hooks';
+import { useAuth } from '../../hooks';
 import { createSignUpSchema } from '../../utils/validation';
 
 const SignUp = () => {
@@ -21,7 +23,7 @@ const SignUp = () => {
       confirmPassword: '',
     },
     validationSchema: createSignUpSchema(t),
-    onSubmit: ((values, { setStatus }) => {
+    onSubmit: ((values, { setStatus, setSubmitting }) => {
       ApiService.signUp(omit(values, 'confirmPassword'))
         .then((res) => {
           setStatus(null);
@@ -29,7 +31,8 @@ const SignUp = () => {
           navigate('/');
         })
         .catch(() => {
-          setStatus(t('thisUserAlreadyExists'));
+          toast.error(t('toast.thisUserAlreadyExists'));
+          setSubmitting(false);
         });
     }),
   });
@@ -42,17 +45,6 @@ const SignUp = () => {
 
   return (
     <Container fluid className="container">
-      {formik.status && (
-      <Toast
-        autohide
-        delay={3000}
-        show={Boolean(formik.status)}
-        onClose={() => formik.setStatus(null)}
-      >
-        <Toast.Header>{t('mistake')}</Toast.Header>
-        <Toast.Body>{formik.status}</Toast.Body>
-      </Toast>
-      )}
       <Card className="card">
         <Card.Body>
           <Card.Title>{t('registration')}</Card.Title>
@@ -118,6 +110,7 @@ const SignUp = () => {
               </Form.Control.Feedback>
             </Form.Group>
             <Button
+              className="mt-3"
               type="submit"
               role="button"
               variant="outline-primary"

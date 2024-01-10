@@ -13,6 +13,8 @@ import {
   ButtonGroup,
 } from 'react-bootstrap';
 import { PlusSquare, ArrowRightSquare } from 'react-bootstrap-icons';
+import { toast } from 'react-toastify';
+
 import { getChatData } from '../../store/feature/chat/action.js';
 import {
   setCurrentChannel, addMessage, addChannel, renameChannel, removeChannel,
@@ -20,10 +22,14 @@ import {
 import { getChat } from '../../store/feature/chat/chat-selectors';
 import { getModal, MODAL_NAMES } from '../../components/modals';
 
-import './main-page.scss';
+import { useLeoProfanity } from '../../hooks';
 
-const MainPage = ({ socket }) => {
-  const { t } = useTranslation();
+import './chat.scss';
+
+const Chat = ({ socket }) => {
+  const { t, i18n } = useTranslation();
+  const leoProfanity = useLeoProfanity(i18n.language);
+
   const dispatch = useDispatch();
   const chat = useSelector(getChat);
   const { data: { channels, currentChannelId, messages } } = chat;
@@ -32,28 +38,36 @@ const MainPage = ({ socket }) => {
   const handleCloseModal = () => setModalInfo({ type: null, item: null });
   const handleShowModal = (type, item = null) => () => setModalInfo({ type, item });
   const handleSubmitModal = (values) => {
+    const newValues = {
+      ...values,
+      name: leoProfanity.clean(values.name)
+    }
+
     if (modalInfo.type === MODAL_NAMES.adding) {
-      socket.emit('newChannel', values, (response) => {
+      socket.emit('newChannel', newValues, (response) => {
         if (response.status !== 'ok') {
           return;
         }
         dispatch(addChannel(response.data));
         dispatch(setCurrentChannel(response.data.id));
+        toast.success(t('toast.channels.created'));
       });
     }
 
     if (modalInfo.type === MODAL_NAMES.renaming) {
-      socket.emit('renameChannel', values, (response) => {
+      socket.emit('renameChannel', newValues, (response) => {
         if (response.status !== 'ok') {
           return;
         }
-        dispatch(renameChannel(values));
+        dispatch(renameChannel(newValues));
+        toast.success(t('toast.channels.updated'));
       });
     }
 
     if (modalInfo.type === MODAL_NAMES.removing) {
-      socket.emit('removeChannel', values, () => {
-        dispatch(removeChannel({ channelId: values.id }));
+      socket.emit('removeChannel', newValues, () => {
+        dispatch(removeChannel({ channelId: newValues.id }));
+        toast.success(t('toast.channels.deleted'));
       });
     }
 
@@ -72,10 +86,10 @@ const MainPage = ({ socket }) => {
     initialValues: {
       body: '',
     },
-    onSubmit: ((values, { resetForm }) => {
+    onSubmit: (({ body }, { resetForm, setStatus }) => {
       const username = localStorage.getItem('username');
       const newMessage = {
-        ...values,
+        body: leoProfanity.clean(body),
         channelId: currentChannelId,
         username,
       };
@@ -96,24 +110,27 @@ const MainPage = ({ socket }) => {
     socket.on('newMessage', (newMessage) => {
       dispatch(addMessage(newMessage));
     });
+
+    socket.on('newChannel', () => {
+      dispatch(getChatData());
+    });
   }, [dispatch, socket]);
 
   return (
     <>
       <div className="main-page rounded shadow">
-        <Container fluid>
-          <Row>
-            <Col className="main-page__sidebar border-end bg-light pt-5" xs={2}>
+        <Container className="position-relative pt-3 pb-3 ">
+          <Row className="w-100 overflow-hidden rounded shadow">
+            <Col className="border-end bg-light pt-5" xs={2}>
               <div className="d-flex justify-content-between align-items-center">
-                {t('channels')}
+                {t('channels.title')}
                 <Button
-                  role="button"
+                  variant="outline-light"
                   onClick={handleShowModal(MODAL_NAMES.adding)}
-                  className="main-page__add-channel-button"
                   size="sm"
                 >
                   <PlusSquare color="#007bff" size="18" />
-                  +
+                  <span class="visually-hidden">+</span>
                 </Button>
               </div>
               <ul className="channelList">
@@ -134,7 +151,9 @@ const MainPage = ({ socket }) => {
                         className="flex-grow-0"
                         split
                         variant={el.id === currentChannelId ? 'secondary' : null}
-                      />
+                      >
+                        <span className="visually-hidden">{t('channels.menu')}</span>
+                      </Dropdown.Toggle>
                       )}
                       { el.removable && (
                       <Dropdown.Menu>
@@ -151,7 +170,7 @@ const MainPage = ({ socket }) => {
                 ))}
               </ul>
             </Col>
-            <Col className="col p-0 d-flex main-page__content" xs={10}>
+            <Col className="col p-0 d-flex position-relative main-page__content" xs={10}>
               <div className="bg-light mb-4 p-3 shadow-sm small main-page__content-header">
                 <p className="m-0">
                   <b>
@@ -186,18 +205,17 @@ const MainPage = ({ socket }) => {
                       placeholder="Введите сообщение..."
                       size="lg"
                       data-testid="new-message"
+                      aria-label="Новое сообщение"
                     />
-                    <InputGroup.Append>
-                      <Button
-                        type="submit"
-                        disabled={formik.isSubmitting}
-                      >
-                        <ArrowRightSquare size="20" />
-                        <span className="invisible d-none">
-                          {t('button.send')}
-                        </span>
-                      </Button>
-                    </InputGroup.Append>
+                    <Button
+                      type="submit"
+                      disabled={formik.isSubmitting}
+                    >
+                      <ArrowRightSquare size="20" />
+                      <span className="invisible d-none">
+                        {t('button.send')}
+                      </span>
+                    </Button>
                   </InputGroup>
                 </form>
               </div>
@@ -214,4 +232,4 @@ const MainPage = ({ socket }) => {
   );
 };
 
-export default MainPage;
+export default Chat;

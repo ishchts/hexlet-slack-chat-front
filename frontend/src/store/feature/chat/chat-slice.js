@@ -15,7 +15,6 @@ const chatSlice = createSlice({
   reducers: {
     setCurrentChannel: (state, { payload }) => set(state, 'data.currentChannelId', payload),
     addMessage: (state, action) => {
-      console.log('action.payload', action.payload);
       state.data.messages.push(action.payload);
     },
     addChannel: (state, { payload }) => {
@@ -51,7 +50,18 @@ const chatSlice = createSlice({
     builder.addCase(getChatData.fulfilled, (
       state,
       { payload },
-    ) => ({ ...state, isLoading: false, data: payload }));
+    ) => {
+      return {
+        ...state,
+        isLoading: false,
+        data: {
+          ...state.data,
+          channels: payload.channels,
+          messages: payload.messages,
+          currentChannelId: state?.data?.currentChannelId || payload.currentChannelId
+        }
+      }
+    });
 
     builder.addCase(getChatData.rejected, (state) => ({ ...state, isLoading: false }));
   },

@@ -3,5 +3,3 @@ export const MODAL_NAMES = {
   renaming: 'renaming',
   removing: 'removing',
 };
-
-export default {};

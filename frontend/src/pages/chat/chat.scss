@@ -6,25 +6,6 @@
     .row {
         height: 100%;
     }
-    &__sidebar {
-
-    }
-    &__add-channel-button {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: transparent;
-        border: none;
-        &:hover {
-            background-color: transparent;
-        }
-        &:focus {
-            background-color: transparent!important;
-        }
-        &:active {
-            background-color: transparent!important;
-        }
-    }
     &__content {
         flex-wrap: wrap;
         align-content: flex-start;
