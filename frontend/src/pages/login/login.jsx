@@ -4,7 +4,7 @@ import * as yup from 'yup';
 import { Link, useNavigate, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
-  Button, Card, Container, Col, Form
+  Button, Card, Container, Col, Form,
 } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 
@@ -21,7 +21,7 @@ const schema = yup.object().shape({
 const Login = () => {
   const { t } = useTranslation();
   const { isLoggedIn, logIn } = useAuth();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -49,7 +49,7 @@ const Login = () => {
   }, []);
 
   if (isLoggedIn) {
-    return <Navigate to='/' />;
+    return <Navigate to="/" />;
   }
 
   return (

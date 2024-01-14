@@ -19,8 +19,8 @@ const translation = {
         caption: 'Уверены?',
       },
       updateChannel: {
-        title: "Переименовать канал"
-      }
+        title: 'Переименовать канал',
+      },
     },
     field: {
       mixed: {
@@ -46,7 +46,7 @@ const translation = {
     channels: {
       title: 'Каналы',
       menu: 'Управление каналом',
-      channelName: 'Имя канала'
+      channelName: 'Имя канала',
     },
     remove: 'Удалить',
     rename: 'Переименовать',
@@ -69,14 +69,14 @@ const translation = {
     toast: {
       thisUserAlreadyExists: 'Такой пользователь уже существует',
       login: {
-        error: 'Неверные имя пользователя или пароль'
+        error: 'Неверные имя пользователя или пароль',
       },
       channels: {
         created: 'Канал создан',
         updated: 'Канал переименован',
-        deleted: 'Канал удалён'
-      }
-    }
+        deleted: 'Канал удалён',
+      },
+    },
   },
 };
 

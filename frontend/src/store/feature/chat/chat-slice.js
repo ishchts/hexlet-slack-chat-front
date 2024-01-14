@@ -50,18 +50,16 @@ const chatSlice = createSlice({
     builder.addCase(getChatData.fulfilled, (
       state,
       { payload },
-    ) => {
-      return {
-        ...state,
-        isLoading: false,
-        data: {
-          ...state.data,
-          channels: payload.channels,
-          messages: payload.messages,
-          currentChannelId: state?.data?.currentChannelId || payload.currentChannelId
-        }
-      }
-    });
+    ) => ({
+      ...state,
+      isLoading: false,
+      data: {
+        ...state.data,
+        channels: payload.channels,
+        messages: payload.messages,
+        currentChannelId: state?.data?.currentChannelId || payload.currentChannelId,
+      },
+    }));
 
     builder.addCase(getChatData.rejected, (state) => ({ ...state, isLoading: false }));
   },

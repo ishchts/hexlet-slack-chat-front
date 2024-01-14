@@ -5,3 +5,5 @@ export const getChatData = createAsyncThunk('getChatData', async () => {
   const resp = await ApiService.getChatData();
   return resp.data;
 });
+
+export default {};

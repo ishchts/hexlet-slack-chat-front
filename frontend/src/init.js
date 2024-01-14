@@ -7,12 +7,12 @@ import AuthProvider from './components/HOC/auth-provider.jsx';
 
 import { App } from './app';
 
-export const init = async (socket) => (
+const init = async (socket) => (
   <Provider store={store}>
     <AuthProvider>
       <App socket={socket} />
     </AuthProvider>
   </Provider>
 );
-  
+
 export default init;

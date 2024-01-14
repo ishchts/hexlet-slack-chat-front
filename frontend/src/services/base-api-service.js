@@ -5,12 +5,10 @@ const defaultHeaderConfig = () => ({
   Authorization: `Bearer ${localStorage.getItem('token')}`,
 });
 
-export default class BaseApiService {
-  request(config) {
-    const newConfig = config.headers
-      ? { ...config, headers: { ...config.headers, ...defaultHeaderConfig() } }
-      : { ...config, headers: { ...defaultHeaderConfig() } };
+export default (config) => {
+  const newConfig = config.headers
+    ? { ...config, headers: { ...config.headers, ...defaultHeaderConfig() } }
+    : { ...config, headers: { ...defaultHeaderConfig() } };
 
-    return axios(newConfig).then((result) => result).catch((error) => Promise.reject(error));
-  }
-}
+  return axios(newConfig).then((result) => result).catch((error) => Promise.reject(error));
+};

@@ -1,30 +1,26 @@
-import BaseApiService from './base-api-service.js';
+import request from './base-api-service.js';
 
-class _ApiService extends BaseApiService {
+const ApiService = {
   signUp(data) {
-    return this.request({
+    return request({
       method: 'POST',
       url: '/api/v1/signup',
       data,
     });
-  }
-
+  },
   login(values) {
-    return this.request({
+    return request({
       method: 'POST',
       url: '/api/v1/login',
       data: values,
     });
-  }
-
+  },
   getChatData() {
-    return this.request({
+    return request({
       method: 'GET',
       url: '/api/v1/data',
     });
-  }
-}
-
-const ApiService = new _ApiService();
+  },
+};
 
 export default ApiService;

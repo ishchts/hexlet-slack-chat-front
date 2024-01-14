@@ -54,13 +54,14 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
             <Form.Label className="visually-hidden" htmlFor="name">{t('channels.channelName')}</Form.Label>
             <Form.Control.Feedback
               type="invalid"
-              >
+            >
               {formik.errors.name}
             </Form.Control.Feedback>
             <div className="d-flex justify-content-end">
               <Button
                 className="me-2"
-                role="button" type="reset"
+                role="button"
+                type="reset"
                 onClick={handleCancel}
                 variant="secondary"
               >
@@ -81,5 +82,7 @@ const AddChannel = memo(({ modalInfo, handleCloseModal, handleSubmitModal }) => 
     </Modal>
   );
 });
+
+AddChannel.displayName = 'AddChannel';
 
 export default AddChannel;

@@ -40,8 +40,8 @@ const Chat = ({ socket }) => {
   const handleSubmitModal = (values) => {
     const newValues = {
       ...values,
-      name: leoProfanity.clean(values.name)
-    }
+      name: leoProfanity.clean(values.name),
+    };
 
     if (modalInfo.type === MODAL_NAMES.adding) {
       socket.emit('newChannel', newValues, (response) => {
@@ -86,7 +86,7 @@ const Chat = ({ socket }) => {
     initialValues: {
       body: '',
     },
-    onSubmit: (({ body }, { resetForm, setStatus }) => {
+    onSubmit: (({ body }, { resetForm }) => {
       const username = localStorage.getItem('username');
       const newMessage = {
         body: leoProfanity.clean(body),
@@ -130,7 +130,7 @@ const Chat = ({ socket }) => {
                   size="sm"
                 >
                   <PlusSquare color="#007bff" size="18" />
-                  <span class="visually-hidden">+</span>
+                  <span className="visually-hidden">+</span>
                 </Button>
               </div>
               <ul className="channelList">
